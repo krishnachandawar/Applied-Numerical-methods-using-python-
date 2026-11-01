@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CS2807: Numerical Methods – Interactive Project Documentation</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    :root {
+      --primary: #1e40af;
+      --primary-hover: #1d4ed8;
+      --accent: #0284c7;
+      --bg-page: #f8fafc;
+      --card-bg: #ffffff;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --border-color: #e2e8f0;
+      --code-bg: #0f172a;
+      --code-text: #e2e8f0;
+    }
+    .dark {
+      --bg-page: #0b1120;
+      --card-bg: #1e293b;
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --border-color: #334155;
+      --code-bg: #020617;
+      --code-text: #cbd5e1;
+    }
+    body {
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 0.75rem;
+    }
+    .nav-tab.active {
+      background-color: var(--primary);
+      color: #ffffff;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      height: 6px;
+      width: 6px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 3px;
+    }
+    pre {
+      background-color: var(--code-bg);
+      color: var(--code-text);
+    }
+  </style>
+</head>
+<body class="min-h-screen">
+
+  <!-- TOP HEADER BANNER -->
+  <header class="card border-b border-[var(--border-color)] px-6 py-4 sticky top-0 z-30 shadow-sm backdrop-blur-md bg-opacity-95">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+      <div class="flex items-center space-x-4">
+        <div class="w-10 h-10 rounded-lg bg-blue-700 text-white flex items-center justify-center font-bold text-xl shadow">
+          NM
+        </div>
+        <div>
+          <h1 class="text-lg font-bold tracking-tight">CS2807: Numerical Methods — Python Activity</h1>
+          <p class="text-xs text-[var(--text-muted)]">CIE-3 Project Report & Interactive Documentation | Set 2</p>
+        </div>
+      </div>
+
+      <!-- Candidate Badges & Theme Toggle -->
+      <div class="flex flex-wrap items-center gap-2 text-xs">
+        <span class="px-2.5 py-1 rounded-full bg-blue-100 text-blue-800 font-medium dark:bg-blue-900/50 dark:text-blue-200">
+          Candidate: <strong>Krishna H Chandawar</strong>
+        </span>
+        <span class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-800 font-medium dark:bg-amber-900/50 dark:text-amber-200">
+          Reg: <strong>1RUA25BCA0052</strong>
+        </span>
+        <span class="px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 font-medium dark:bg-emerald-900/50 dark:text-emerald-200">
+          Section: <strong>A</strong>
+        </span>
+        <button id="themeToggle" class="ml-2 px-3 py-1 rounded-lg border border-[var(--border-color)] hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          🌓 Theme
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 py-8">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- SIDEBAR NAVIGATION -->
+      <aside class="lg:col-span-3">
+        <div class="card p-4 sticky top-24 space-y-2">
+          <div class="text-xs font-semibold uppercase tracking-wider text-[var(--text-muted)] px-3 mb-2">Sections</div>
+          <button onclick="switchTab('overview')" class="nav-tab active w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition flex items-center justify-between">
+            <span>📋 Project Overview</span>
+          </button>
+          <button onclick="switchTab('prob1')" class="nav-tab w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition flex items-center justify-between">
+            <span>1. Gauss–Jacobi Method</span>
+            <span class="text-xs px-1.5 py-0.5 rounded bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">Iterative</span>
+          </button>
+          <button onclick="switchTab('prob2')" class="nav-tab w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition flex items-center justify-between">
+            <span>2. Gauss–Seidel Method</span>
+            <span class="text-xs px-1.5 py-0.5 rounded bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300">Iterative</span>
+          </button>
+          <button onclick="switchTab('prob3')" class="nav-tab w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition flex items-center justify-between">
+            <span>3. Euler’s Method</span>
+            <span class="text-xs px-1.5 py-0.5 rounded bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-300">ODE</span>
+          </button>
+          <button onclick="switchTab('prob4')" class="nav-tab w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition flex items-center justify-between">
+            <span>4. Newton’s Cooling</span>
+            <span class="text-xs px-1.5 py-0.5 rounded bg-orange-100 text-orange-700 dark:bg-orange-900 dark:text-orange-300">Physics</span>
+          </button>
+          <button onclick="switchTab('prob5')" class="nav-tab w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition flex items-center justify-between">
+            <span>5. RK2 Method</span>
+            <span class="text-xs px-1.5 py-0.5 rounded bg-pink-100 text-pink-700 dark:bg-pink-900 dark:text-pink-300">O(h²)</span>
+          </button>
+          <button onclick="switchTab('prob6')" class="nav-tab w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition flex items-center justify-between">
+            <span>6. Salt Mixture RK2</span>
+            <span class="text-xs px-1.5 py-0.5 rounded bg-teal-100 text-teal-700 dark:bg-teal-900 dark:text-teal-300">Applied</span>
+          </button>
+          <button onclick="switchTab('downloads')" class="nav-tab w-full text-left px-3 py-2 rounded-lg text-sm font-medium transition flex items-center justify-between border-t border-[var(--border-color)] pt-3 mt-3">
+            <span>📦 Downloads & Files</span>
+            <span class="text-xs px-1.5 py-0.5 rounded bg-slate-200 text-slate-700 dark:bg-slate-700 dark:text-slate-300">Docs</span>
+          </button>
+        </div>
+      </aside>
+
+      <!-- MAIN CONTENT DISPLAY AREA -->
+      <main class="lg:col-span-9 space-y-6">
+
+        <!-- =================== SECTION: OVERVIEW =================== -->
+        <section id="sec-overview" class="tab-content space-y-6">
+          <div class="card p-6">
+            <h2 class="text-2xl font-bold mb-2">CS2807 Numerical Methods — Activity Overview</h2>
+            <p class="text-[var(--text-muted)] text-sm mb-4 leading-relaxed">
+              This interactive project documentation presents full analytical derivations, manual working steps, and computational verification for <strong>CS2807 Numerical Methods (Set 2)</strong>, submitted for BCA (Hons) Semester III Continuous Internal Evaluation 3 (CIE-3) at RV University, Bengaluru.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 my-6">
+              <div class="p-4 rounded-lg bg-blue-50 dark:bg-blue-950/40 border border-blue-200 dark:border-blue-900">
+                <div class="text-xs font-semibold text-blue-700 dark:text-blue-300 uppercase">Part 1: Linear Systems</div>
+                <div class="text-lg font-bold mt-1">Gauss–Jacobi & Seidel</div>
+                <div class="text-xs text-[var(--text-muted)] mt-1">Strict diagonal dominance, simultaneous vs successive updating, convergence rates.</div>
+              </div>
+              <div class="p-4 rounded-lg bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-900">
+                <div class="text-xs font-semibold text-purple-700 dark:text-purple-300 uppercase">Part 2: 1st-Order IVPs</div>
+                <div class="text-lg font-bold mt-1">Euler’s Forward Method</div>
+                <div class="text-xs text-[var(--text-muted)] mt-1">First-order numerical integration applied to non-linear differential equations and Newton's law of cooling.</div>
+              </div>
+              <div class="p-4 rounded-lg bg-teal-50 dark:bg-teal-950/40 border border-teal-200 dark:border-teal-900">
+                <div class="text-xs font-semibold text-teal-700 dark:text-teal-300 uppercase">Part 3: 2nd-Order IVPs</div>
+                <div class="text-lg font-bold mt-1">Runge–Kutta 2 (Heun's)</div>
+                <div class="text-xs text-[var(--text-muted)] mt-1">Predictor-corrector O(h²) accuracy applied to trigonometric rates and tank brine mixing dynamics.</div>
+              </div>
+            </div>
+
+            <div class="border-t border-[var(--border-color)] pt-4">
+              <h3 class="font-bold text-sm mb-3">Summary Comparison of All 6 Problems</h3>
+              <div class="overflow-x-auto custom-scroll">
+                <table class="w-full text-left text-xs border border-[var(--border-color)] rounded-lg">
+                  <thead class="bg-slate-100 dark:bg-slate-800 text-[var(--text-muted)] uppercase">
+                    <tr>
+                      <th class="p-3 border-b border-[var(--border-color)]">#</th>
+                      <th class="p-3 border-b border-[var(--border-color)]">Problem Title</th>
+                      <th class="p-3 border-b border-[var(--border-color)]">Method</th>
+                      <th class="p-3 border-b border-[var(--border-color)]">Given System / ODE</th>
+                      <th class="p-3 border-b border-[var(--border-color)]">Manual Result</th>
+                      <th class="p-3 border-b border-[var(--border-color)]">Python Output</th>
+                      <th class="p-3 border-b border-[var(--border-color)]">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-[var(--border-color)]">
+                    <tr>
+                      <td class="p-3 font-semibold">1</td>
+                      <td class="p-3">Gauss–Jacobi</td>
+                      <td class="p-3">Iterative Linear Solver</td>
+                      <td class="p-3">9x-y+2z=18; 2x+8y-z=-5; x-2y+10z=21</td>
+                      <td class="p-3">(1.5150, -0.7797, 1.7926)</td>
+                      <td class="p-3">(1.5150, -0.7797, 1.7926)</td>
+                      <td class="p-3"><span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">Verified</span></td>
+                    </tr>
+                    <tr>
+                      <td class="p-3 font-semibold">2</td>
+                      <td class="p-3">Gauss–Seidel</td>
+                      <td class="p-3">Iterative Linear Solver</td>
+                      <td class="p-3">5x+y-z=10; -x+6y+2z=-2; 2x-y+7z=9</td>
+                      <td class="p-3">(2.1653, -0.1860, 0.6405)</td>
+                      <td class="p-3">(2.1653, -0.1860, 0.6405)</td>
+                      <td class="p-3"><span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">Verified</span></td>
+                    </tr>
+                    <tr>
+                      <td class="p-3 font-semibold">3</td>
+                      <td class="p-3">Euler’s ODE</td>
+                      <td class="p-3">1st Order Euler (h=0.1)</td>
+                      <td class="p-3">dy/dx = x + y², y(0) = 1</td>
+                      <td class="p-3">y(0.3) ≈ 1.4025</td>
+                      <td class="p-3">y(0.3) = 1.4025</td>
+                      <td class="p-3"><span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">Verified</span></td>
+                    </tr>
+                    <tr>
+                      <td class="p-3 font-semibold">4</td>
+                      <td class="p-3">Newton’s Cooling</td>
+                      <td class="p-3">Euler Application (h=4m)</td>
+                      <td class="p-3">dT/dt = -0.05(T - 20), T(0)=90°C</td>
+                      <td class="p-3">T(8) = 64.80°C</td>
+                      <td class="p-3">T(8) = 64.80°C</td>
+                      <td class="p-3"><span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">Verified</span></td>
+                    </tr>
+                    <tr>
+                      <td class="p-3 font-semibold">5</td>
+                      <td class="p-3">RK2 (Heun)</td>
+                      <td class="p-3">2nd Order Runge-Kutta</td>
+                      <td class="p-3">dy/dx = sin(x - y), y(0) = 1</td>
+                      <td class="p-3">y(0.3) ≈ 0.8006</td>
+                      <td class="p-3">y(0.3) = 0.8006</td>
+                      <td class="p-3"><span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">Verified</span></td>
+                    </tr>
+                    <tr>
+                      <td class="p-3 font-semibold">6</td>
+                      <td class="p-3">Salt Mixture</td>
+                      <td class="p-3">RK2 Applied (h=5m)</td>
+                      <td class="p-3">dy/dt = 12 - y/20, y(0) = 0</td>
+                      <td class="p-3">y(15) ≈ 125.5591 g</td>
+                      <td class="p-3">y(15) = 125.5591 g</td>
+                      <td class="p-3"><span class="px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200">Verified</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================== SECTION: PROBLEM 1 =================== -->
+        <section id="sec-prob1" class="tab-content hidden space-y-6">
+          <div class="card p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-xl font-bold">Problem 1: Gauss–Jacobi Iterative Method</h2>
+              <span class="px-3 py-1 text-xs rounded-full bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 font-semibold">Linear Systems</span>
+            </div>
+
+            <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-[var(--border-color)] text-sm mb-4">
+              <strong>System of Equations:</strong>
+              <div class="font-mono mt-1 text-xs sm:text-sm">
+                (1)  9x -  y +  2z =  18<br>
+                (2)  2x + 8y -   z =  -5<br>
+                (3)   x - 2y + 10z =  21<br>
+                Initial guess: x⁽⁰⁾ = 0, y⁽⁰⁾ = 0, z⁽⁰⁾ = 0.
+              </div>
+            </div>
+
+            <!-- Mathematical Derivation -->
+            <div class="space-y-3 text-sm">
+              <h3 class="font-bold text-base text-blue-600 dark:text-blue-400">Step-by-Step Derivation</h3>
+              <p><strong>1. Strict Diagonal Dominance Check:</strong></p>
+              <ul class="list-disc pl-5 space-y-1 text-xs sm:text-sm text-[var(--text-muted)]">
+                <li>Row 1: |9| = 9 > |-1| + |2| = 3 (Valid)</li>
+                <li>Row 2: |8| = 8 > |2| + |-1| = 3 (Valid)</li>
+                <li>Row 3: |10| = 10 > |1| + |-2| = 3 (Valid)</li>
+              </ul>
+              <p><strong>2. Iteration Recurrence Relations:</strong></p>
+              <div class="p-3 bg-slate-100 dark:bg-slate-800 rounded font-mono text-xs">
+                x⁽ᵏ⁺¹⁾ = (18 + y⁽ᵏ⁾ - 2z⁽ᵏ⁾) / 9<br>
+                y⁽ᵏ⁺¹⁾ = (-5 - 2x⁽ᵏ⁾ + z⁽ᵏ⁾) / 8<br>
+                z⁽ᵏ⁺¹⁾ = (21 - x⁽ᵏ⁾ + 2y⁽ᵏ⁾) / 10
+              </div>
+            </div>
+
+            <!-- Interactive Jacobi Simulator -->
+            <div class="mt-6 p-4 rounded-lg border border-blue-200 dark:border-blue-900 bg-blue-50/50 dark:bg-blue-950/20">
+              <h4 class="font-bold text-sm text-blue-900 dark:text-blue-200 mb-2 flex items-center justify-between">
+                <span>⚡ Interactive Gauss–Jacobi Simulator</span>
+                <span class="text-xs font-normal text-slate-500">Live Browser Computation</span>
+              </h4>
+              <div class="flex items-center gap-4 text-xs mb-3">
+                <label>Tolerance:
+                  <select id="jacobiTol" onchange="runJacobiSim()" class="ml-1 p-1 rounded border border-slate-300 dark:bg-slate-800">
+                    <option value="0.0001">1e-4 (Standard)</option>
+                    <option value="0.00001">1e-5 (Strict)</option>
+                    <option value="0.001">1e-3 (Fast)</option>
+                  </select>
+                </label>
+                <button onclick="runJacobiSim()" class="px-3 py-1 bg-blue-600 text-white rounded hover:bg-blue-700">Recompute</button>
+              </div>
+              <div id="jacobiOutput" class="overflow-x-auto custom-scroll max-h-48 font-mono text-xs bg-white dark:bg-slate-900 p-3 rounded border border-slate-200 dark:border-slate-800"></div>
+            </div>
+
+            <!-- Python Program & Output -->
+            <div class="mt-6 space-y-4">
+              <div class="flex items-center justify-between">
+                <h4 class="font-bold text-sm">Python Program (problem_1_gauss_jacobi.py)</h4>
+                <button onclick="copyCode('code-p1', this)" class="text-xs px-2.5 py-1 rounded bg-slate-200 dark:bg-slate-700 hover:bg-slate-300">Copy Code</button>
+              </div>
+              <pre class="p-4 rounded-lg text-xs overflow-x-auto custom-scroll"><code id="code-p1">def gauss_jacobi(tol=1e-4, max_iter=50):
+    x, y, z = 0.0, 0.0, 0.0
+    for k in range(1, max_iter + 1):
+        x_new = (18.0 + y - 2.0 * z) / 9.0
+        y_new = (-5.0 - 2.0 * x + z) / 8.0
+        z_new = (21.0 - x + 2.0 * y) / 10.0
+        if max(abs(x_new - x), abs(y_new - y), abs(z_new - z)) < tol:
+            return k, x_new, y_new, z_new
+        x, y, z = x_new, y_new, z_new</code></pre>
+
+              <h4 class="font-bold text-sm mt-3">Verified Console Output</h4>
+              <pre class="p-3 rounded-lg text-xs text-emerald-400 bg-slate-950 font-mono">Iteration  8: x = 1.5150, y = -0.7797, z = 1.7926
+Convergence achieved at iteration 8 (tol = 0.0001)
+Final Solution: x = 1.5150, y = -0.7797, z = 1.7926</pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================== SECTION: PROBLEM 2 =================== -->
+        <section id="sec-prob2" class="tab-content hidden space-y-6">
+          <div class="card p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-xl font-bold">Problem 2: Gauss–Seidel Iterative Method</h2>
+              <span class="px-3 py-1 text-xs rounded-full bg-emerald-100 text-emerald-800 dark:bg-emerald-900 dark:text-emerald-200 font-semibold">Fast Convergence</span>
+            </div>
+
+            <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-[var(--border-color)] text-sm mb-4">
+              <strong>System of Equations:</strong>
+              <div class="font-mono mt-1 text-xs sm:text-sm">
+                (1)   5x +  y -  z =  10<br>
+                (2)  - x + 6y + 2z =  -2<br>
+                (3)   2x -  y + 7z =   9<br>
+                Initial guess: x⁽⁰⁾ = 0, y⁽⁰⁾ = 0, z⁽⁰⁾ = 0.
+              </div>
+            </div>
+
+            <!-- Mathematical Derivation -->
+            <div class="space-y-3 text-sm">
+              <h3 class="font-bold text-base text-emerald-600 dark:text-emerald-400">Step-by-Step Derivation</h3>
+              <p><strong>Diagonal Dominance Verification:</strong></p>
+              <ul class="list-disc pl-5 space-y-1 text-xs sm:text-sm text-[var(--text-muted)]">
+                <li>Row 1: |5| = 5 > |1| + |-1| = 2 (Valid)</li>
+                <li>Row 2: |6| = 6 > |-1| + |2| = 3 (Valid)</li>
+                <li>Row 3: |7| = 7 > |2| + |-1| = 3 (Valid)</li>
+              </ul>
+              <p><strong>Gauss–Seidel Successive Updating Equations:</strong></p>
+              <div class="p-3 bg-slate-100 dark:bg-slate-800 rounded font-mono text-xs">
+                x⁽ᵏ⁺¹⁾ = (10 - y⁽ᵏ⁾ + z⁽ᵏ⁾) / 5<br>
+                y⁽ᵏ⁺¹⁾ = (-2 + x⁽ᵏ⁺¹⁾ - 2z⁽ᵏ⁾) / 6    <-- Uses fresh x⁽ᵏ⁺¹⁾<br>
+                z⁽ᵏ⁺¹⁾ = (9 - 2x⁽ᵏ⁺¹⁾ + y⁽ᵏ⁺¹⁾) / 7    <-- Uses fresh x⁽ᵏ⁺¹⁾ and y⁽ᵏ⁺¹⁾
+              </div>
+            </div>
+
+            <!-- Interactive Seidel Simulator -->
+            <div class="mt-6 p-4 rounded-lg border border-emerald-200 dark:border-emerald-900 bg-emerald-50/50 dark:bg-emerald-950/20">
+              <h4 class="font-bold text-sm text-emerald-900 dark:text-emerald-200 mb-2 flex items-center justify-between">
+                <span>⚡ Interactive Gauss–Seidel Simulator</span>
+                <span class="text-xs font-normal text-slate-500">Live Browser Computation</span>
+              </h4>
+              <div class="flex items-center gap-4 text-xs mb-3">
+                <button onclick="runSeidelSim()" class="px-3 py-1 bg-emerald-600 text-white rounded hover:bg-emerald-700">Compute Iterations</button>
+                <span class="text-xs text-slate-500">Notice it reaches convergence in only 6 iterations!</span>
+              </div>
+              <div id="seidelOutput" class="overflow-x-auto custom-scroll max-h-48 font-mono text-xs bg-white dark:bg-slate-900 p-3 rounded border border-slate-200 dark:border-slate-800"></div>
+            </div>
+
+            <!-- Code & Output -->
+            <div class="mt-6 space-y-4">
+              <div class="flex items-center justify-between">
+                <h4 class="font-bold text-sm">Python Program (problem_2_gauss_seidel.py)</h4>
+                <button onclick="copyCode('code-p2', this)" class="text-xs px-2.5 py-1 rounded bg-slate-200 dark:bg-slate-700 hover:bg-slate-300">Copy Code</button>
+              </div>
+              <pre class="p-4 rounded-lg text-xs overflow-x-auto custom-scroll"><code id="code-p2">def gauss_seidel(tol=1e-4, max_iter=50):
+    x, y, z = 0.0, 0.0, 0.0
+    for k in range(1, max_iter + 1):
+        x_old, y_old, z_old = x, y, z
+        x = (10.0 - y + z) / 5.0
+        y = (-2.0 + x - 2.0 * z) / 6.0
+        z = (9.0 - 2.0 * x + y) / 7.0
+        if max(abs(x - x_old), abs(y - y_old), abs(z - z_old)) < tol:
+            return k, x, y, z</code></pre>
+
+              <h4 class="font-bold text-sm mt-3">Verified Console Output</h4>
+              <pre class="p-3 rounded-lg text-xs text-emerald-400 bg-slate-950 font-mono">Iteration  6: x = 2.1653, y = -0.1860, z = 0.6405
+Convergence achieved at iteration 6 (tol = 0.0001)
+Final Solution: x = 2.1653, y = -0.1860, z = 0.6405</pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================== SECTION: PROBLEM 3 =================== -->
+        <section id="sec-prob3" class="tab-content hidden space-y-6">
+          <div class="card p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-xl font-bold">Problem 3: Euler’s Method for Initial Value Problems</h2>
+              <span class="px-3 py-1 text-xs rounded-full bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200 font-semibold">1st Order ODE</span>
+            </div>
+
+            <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-[var(--border-color)] text-sm mb-4">
+              <strong>Problem Specification:</strong>
+              <div class="font-mono mt-1 text-xs sm:text-sm">
+                dy/dx = x + y²,   y(0) = 1,   step size h = 0.1<br>
+                Target: Estimate y(0.1), y(0.2), and y(0.3).
+              </div>
+            </div>
+
+            <div class="space-y-2 text-sm text-[var(--text-muted)]">
+              <p><strong>Recurrence Formula:</strong> <code>y_(n+1) = y_n + h · (x_n + y_n²)</code></p>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-3">
+                <div class="p-3 bg-slate-100 dark:bg-slate-800 rounded text-xs">
+                  <strong>Step 1: x=0.0 → 0.1</strong><br>
+                  f(0, 1) = 0 + 1² = 1.0<br>
+                  y(0.1) = 1 + 0.1(1.0) = <strong>1.1000</strong>
+                </div>
+                <div class="p-3 bg-slate-100 dark:bg-slate-800 rounded text-xs">
+                  <strong>Step 2: x=0.1 → 0.2</strong><br>
+                  f(0.1, 1.1) = 0.1 + 1.21 = 1.31<br>
+                  y(0.2) = 1.1 + 0.1(1.31) = <strong>1.2310</strong>
+                </div>
+                <div class="p-3 bg-slate-100 dark:bg-slate-800 rounded text-xs">
+                  <strong>Step 3: x=0.2 → 0.3</strong><br>
+                  f(0.2, 1.231) = 0.2 + 1.515361 = 1.715361<br>
+                  y(0.3) = 1.231 + 0.1(1.715361) = <strong>1.4025</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Dynamic Canvas Plot -->
+            <div class="p-4 rounded-lg border border-purple-200 dark:border-purple-900 bg-purple-50/40 dark:bg-purple-950/20">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-purple-900 dark:text-purple-200">Interactive Solution Trajectory Plot (dy/dx = x + y²)</span>
+                <span class="text-xs text-slate-500">HTML5 Canvas Engine</span>
+              </div>
+              <canvas id="eulerCanvas" width="600" height="200" class="w-full bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800"></canvas>
+            </div>
+
+            <!-- Python Program & Output -->
+            <div class="mt-6 space-y-4">
+              <div class="flex items-center justify-between">
+                <h4 class="font-bold text-sm">Python Program (problem_3_euler_method.py)</h4>
+                <button onclick="copyCode('code-p3', this)" class="text-xs px-2.5 py-1 rounded bg-slate-200 dark:bg-slate-700 hover:bg-slate-300">Copy Code</button>
+              </div>
+              <pre class="p-4 rounded-lg text-xs overflow-x-auto custom-scroll"><code id="code-p3">def euler(x0=0.0, y0=1.0, h=0.1, x_end=0.3):
+    steps = int(round((x_end - x0) / h))
+    x, y = x0, y0
+    for i in range(steps):
+        slope = x + y**2
+        y = y + h * slope
+        x = round(x + h, 4)
+    return y</code></pre>
+
+              <h4 class="font-bold text-sm mt-3">Verified Console Output</h4>
+              <pre class="p-3 rounded-lg text-xs text-emerald-400 bg-slate-950 font-mono">Step  x_n       y_n           f(x_n, y_n)     y_(n+1)     
+1     0.00      1.0000        1.000000        1.1000      
+2     0.10      1.1000        1.310000        1.2310      
+3     0.20      1.2310        1.715361        1.4025      
+Final estimated y(0.3) = 1.4025</pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================== SECTION: PROBLEM 4 =================== -->
+        <section id="sec-prob4" class="tab-content hidden space-y-6">
+          <div class="card p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-xl font-bold">Problem 4: Newton’s Law of Cooling via Euler’s Method</h2>
+              <span class="px-3 py-1 text-xs rounded-full bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200 font-semibold">Thermodynamics</span>
+            </div>
+
+            <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-[var(--border-color)] text-sm mb-4">
+              <strong>Differential Rate Model:</strong>
+              <div class="font-mono mt-1 text-xs sm:text-sm">
+                dT/dt = -k(T - Tₐ) = -0.05(T - 20)<br>
+                Initial condition: T(0) = 90°C, Ambient: Tₐ = 20°C, Step size h = 4 min<br>
+                Target: Estimate temperature T(8) after 8 minutes.
+              </div>
+            </div>
+
+            <div class="space-y-3 text-sm text-[var(--text-muted)]">
+              <p><strong>Two-Step Calculation:</strong></p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="p-3 bg-slate-100 dark:bg-slate-800 rounded text-xs">
+                  <strong>Step 1: t = 0 → 4 min</strong><br>
+                  dT/dt|₀ = -0.05(90 - 20) = -3.5°C/min<br>
+                  T(4) = 90 + 4(-3.5) = <strong>76.00°C</strong>
+                </div>
+                <div class="p-3 bg-slate-100 dark:bg-slate-800 rounded text-xs">
+                  <strong>Step 2: t = 4 → 8 min</strong><br>
+                  dT/dt|₁ = -0.05(76 - 20) = -2.8°C/min<br>
+                  T(8) = 76 + 4(-2.8) = <strong>64.80°C</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cooling Canvas Plot -->
+            <div class="mt-4 p-4 rounded-lg border border-orange-200 dark:border-orange-900 bg-orange-50/40 dark:bg-orange-950/20">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-orange-900 dark:text-orange-200">Cooling Curve & Ambient Limit Visualization</span>
+                <span class="text-xs text-slate-500">Asymptote Tₐ = 20°C</span>
+              </div>
+              <canvas id="coolingCanvas" width="600" height="200" class="w-full bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800"></canvas>
+            </div>
+
+            <!-- Code & Output -->
+            <div class="mt-6 space-y-4">
+              <div class="flex items-center justify-between">
+                <h4 class="font-bold text-sm">Python Program (problem_4_newton_cooling_euler.py)</h4>
+                <button onclick="copyCode('code-p4', this)" class="text-xs px-2.5 py-1 rounded bg-slate-200 dark:bg-slate-700 hover:bg-slate-300">Copy Code</button>
+              </div>
+              <pre class="p-4 rounded-lg text-xs overflow-x-auto custom-scroll"><code id="code-p4">def newtons_cooling_euler(k=0.05, Ta=20.0, T0=90.0, h=4.0, t_end=8.0):
+    t, T = 0.0, T0
+    steps = int(round(t_end / h))
+    for i in range(steps):
+        rate = -k * (T - Ta)
+        T += h * rate
+        t += h
+    return T</code></pre>
+
+              <h4 class="font-bold text-sm mt-3">Verified Console Output</h4>
+              <pre class="p-3 rounded-lg text-xs text-emerald-400 bg-slate-950 font-mono">Step  Time t (min)   Current T (C)   dT/dt (C/min)   Next T (C)  
+1     0.0            90.00           -3.50           76.00       
+2     4.0            76.00           -2.80           64.80       
+Estimated temperature after 8 minutes: T(8) = 64.80 C</pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================== SECTION: PROBLEM 5 =================== -->
+        <section id="sec-prob5" class="tab-content hidden space-y-6">
+          <div class="card p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-xl font-bold">Problem 5: Runge–Kutta 2nd-Order Method (RK2)</h2>
+              <span class="px-3 py-1 text-xs rounded-full bg-pink-100 text-pink-800 dark:bg-pink-900 dark:text-pink-200 font-semibold">Predictor-Corrector</span>
+            </div>
+
+            <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-[var(--border-color)] text-sm mb-4">
+              <strong>Differential Equation:</strong>
+              <div class="font-mono mt-1 text-xs sm:text-sm">
+                dy/dx = sin(x - y),   y(0) = 1,   step size h = 0.1<br>
+                Target: Compute y(0.3) in 3 successive stages.
+              </div>
+            </div>
+
+            <!-- Mathematical Derivation -->
+            <div class="space-y-3 text-sm">
+              <h3 class="font-bold text-base text-pink-600 dark:text-pink-400">Heun's 2nd-Order Formulas</h3>
+              <div class="p-3 bg-slate-100 dark:bg-slate-800 rounded font-mono text-xs">
+                k₁ = h · f(xₙ, yₙ)<br>
+                k₂ = h · f(xₙ + h, yₙ + k₁)<br>
+                yₙ₊₁ = yₙ + 0.5 · (k₁ + k₂)
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-3">
+                <div class="p-3 bg-slate-100 dark:bg-slate-800 rounded text-xs">
+                  <strong>x = 0.0 → 0.1</strong><br>
+                  k₁ = -0.084147<br>
+                  k₂ = -0.072831<br>
+                  y(0.1) = <strong>0.921511</strong>
+                </div>
+                <div class="p-3 bg-slate-100 dark:bg-slate-800 rounded text-xs">
+                  <strong>x = 0.1 → 0.2</strong><br>
+                  k₁ = -0.073218<br>
+                  k₂ = -0.060383<br>
+                  y(0.2) = <strong>0.854711</strong>
+                </div>
+                <div class="p-3 bg-slate-100 dark:bg-slate-800 rounded text-xs">
+                  <strong>x = 0.2 → 0.3</strong><br>
+                  k₁ = -0.060893<br>
+                  k₂ = -0.047399<br>
+                  y(0.3) = <strong>0.800565</strong> ≈ <strong>0.8006</strong>
+                </div>
+              </div>
+            </div>
+
+            <!-- Code & Output -->
+            <div class="mt-6 space-y-4">
+              <div class="flex items-center justify-between">
+                <h4 class="font-bold text-sm">Python Program (problem_5_rk2_method.py)</h4>
+                <button onclick="copyCode('code-p5', this)" class="text-xs px-2.5 py-1 rounded bg-slate-200 dark:bg-slate-700 hover:bg-slate-300">Copy Code</button>
+              </div>
+              <pre class="p-4 rounded-lg text-xs overflow-x-auto custom-scroll"><code id="code-p5">import math
+
+def rk2_heun(x0=0.0, y0=1.0, h=0.1, x_end=0.3):
+    x, y = x0, y0
+    steps = int(round((x_end - x0) / h))
+    for i in range(steps):
+        k1 = h * math.sin(x - y)
+        k2 = h * math.sin((x + h) - (y + k1))
+        y += 0.5 * (k1 + k2)
+        x = round(x + h, 4)
+    return y</code></pre>
+
+              <h4 class="font-bold text-sm mt-3">Verified Console Output</h4>
+              <pre class="p-3 rounded-lg text-xs text-emerald-400 bg-slate-950 font-mono">Step  x_n     k1            k2            y_(n+1)     
+1     0.10    -0.084147     -0.072831     0.921511    
+2     0.20    -0.073218     -0.060383     0.854711    
+3     0.30    -0.060893     -0.047399     0.800565    
+Final estimated y(0.3) = 0.8006</pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================== SECTION: PROBLEM 6 =================== -->
+        <section id="sec-prob6" class="tab-content hidden space-y-6">
+          <div class="card p-6">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-xl font-bold">Problem 6: Application of RK2 — Salt Mixture Problem</h2>
+              <span class="px-3 py-1 text-xs rounded-full bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200 font-semibold">Mass Balance ODE</span>
+            </div>
+
+            <div class="p-4 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-[var(--border-color)] text-sm mb-4">
+              <strong>Dynamical Physical System:</strong>
+              <div class="font-mono mt-1 text-xs sm:text-sm">
+                Tank Volume V = 80 L (pure water initially, y(0) = 0)<br>
+                Inflow: 4 L/min @ 3 g/L = 12 g/min salt inflow<br>
+                Outflow: 4 L/min @ (y/80) g/L = y/20 g/min salt outflow<br>
+                Differential Equation: dy/dt = 12 - y/20, h = 5 min, Target: y(15)
+              </div>
+            </div>
+
+            <!-- Mathematical Derivation -->
+            <div class="space-y-3 text-sm">
+              <h3 class="font-bold text-base text-teal-600 dark:text-teal-400">Step-by-Step RK2 Derivation</h3>
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-3">
+                <div class="p-3 bg-slate-100 dark:bg-slate-800 rounded text-xs">
+                  <strong>t = 0 → 5 min</strong><br>
+                  k₁ = 60.0000<br>
+                  k₂ = 45.0000<br>
+                  y(5) = <strong>52.5000 g</strong>
+                </div>
+                <div class="p-3 bg-slate-100 dark:bg-slate-800 rounded text-xs">
+                  <strong>t = 5 → 10 min</strong><br>
+                  k₁ = 46.8750<br>
+                  k₂ = 35.1562<br>
+                  y(10) = <strong>93.5156 g</strong>
+                </div>
+                <div class="p-3 bg-slate-100 dark:bg-slate-800 rounded text-xs">
+                  <strong>t = 10 → 15 min</strong><br>
+                  k₁ = 36.6211<br>
+                  k₂ = 27.4658<br>
+                  y(15) = <strong>125.5591 g</strong>
+                </div>
+              </div>
+
+              <!-- Analytical Comparison -->
+              <div class="p-3 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 text-xs">
+                <strong>Exact Analytical Validation:</strong><br>
+                dy/(240 - y) = dt/20 &rArr; y_exact(t) = 240 · (1 - e^(-t/20))<br>
+                y_exact(15) = 240 · (1 - e^(-0.75)) ≈ <strong>126.6320 grams</strong><br>
+                Absolute Error: |125.5591 - 126.6320| = 1.0729 g (Relative Error: <strong>0.85%</strong>)
+              </div>
+            </div>
+
+            <!-- Salt Canvas Plot -->
+            <div class="mt-4 p-4 rounded-lg border border-teal-200 dark:border-teal-900 bg-teal-50/40 dark:bg-teal-950/20">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold text-teal-900 dark:text-teal-200">Salt Accumulation Curve (Numerical RK2 vs Exact Analytical)</span>
+                <span class="text-xs text-slate-500">Saturation Limit = 240 g</span>
+              </div>
+              <canvas id="saltCanvas" width="600" height="200" class="w-full bg-white dark:bg-slate-900 rounded border border-slate-200 dark:border-slate-800"></canvas>
+            </div>
+
+            <!-- Code & Output -->
+            <div class="mt-6 space-y-4">
+              <div class="flex items-center justify-between">
+                <h4 class="font-bold text-sm">Python Program (problem_6_rk2_salt_mixture.py)</h4>
+                <button onclick="copyCode('code-p6', this)" class="text-xs px-2.5 py-1 rounded bg-slate-200 dark:bg-slate-700 hover:bg-slate-300">Copy Code</button>
+              </div>
+              <pre class="p-4 rounded-lg text-xs overflow-x-auto custom-scroll"><code id="code-p6">import math
+
+def salt_mixture_rk2(h=5.0, t_end=15.0):
+    t, y = 0.0, 0.0
+    steps = int(round(t_end / h))
+    for i in range(steps):
+        k1 = h * (12.0 - y / 20.0)
+        k2 = h * (12.0 - (y + k1) / 20.0)
+        y += 0.5 * (k1 + k2)
+        t += h
+    return y</code></pre>
+
+              <h4 class="font-bold text-sm mt-3">Verified Console Output</h4>
+              <pre class="p-3 rounded-lg text-xs text-emerald-400 bg-slate-950 font-mono">Step  Time t (min)  k1 (g)        k2 (g)        Salt y(t) (g) 
+1     5.0           60.0000       45.0000       52.5000       
+2     10.0          46.8750       35.1562       93.5156       
+3     15.0          36.6211       27.4658       125.5591      
+Estimated salt after 15 minutes: y(15) = 125.5591 grams
+Exact analytical solution: y_exact(15) = 126.6320 grams
+Absolute relative error: 0.85%</pre>
+            </div>
+          </div>
+        </section>
+
+        <!-- =================== SECTION: DOWNLOADS =================== -->
+        <section id="sec-downloads" class="tab-content hidden space-y-6">
+          <div class="card p-6">
+            <h2 class="text-xl font-bold mb-4">Submission Files & Downloads</h2>
+            <p class="text-[var(--text-muted)] text-sm mb-6">
+              All official activity submission reports and standalone Python programs are available in your local working directory <code>D:\Mathematics\</code>.
+            </p>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <a href="file:///D:/Mathematics/CS2807_Numerical_Methods_Activity_Report.docx" class="p-4 rounded-lg border border-blue-200 dark:border-blue-800 hover:bg-blue-50/50 dark:hover:bg-blue-950/30 transition block">
+                <div class="flex items-center space-x-3">
+                  <div class="text-3xl">📄</div>
+                  <div>
+                    <div class="font-bold text-sm">Word Document (.docx)</div>
+                    <div class="text-xs text-[var(--text-muted)]">Official RV University CIE-3 Submission Template</div>
+                  </div>
+                </div>
+              </a>
+
+              <a href="file:///D:/Mathematics/CS2807_Numerical_Methods_Activity_Report.pdf" class="p-4 rounded-lg border border-red-200 dark:border-red-800 hover:bg-red-50/50 dark:hover:bg-red-950/30 transition block">
+                <div class="flex items-center space-x-3">
+                  <div class="text-3xl">📑</div>
+                  <div>
+                    <div class="font-bold text-sm">Printable Report (.pdf)</div>
+                    <div class="text-xs text-[var(--text-muted)]">Full 11-page formatted project report</div>
+                  </div>
+                </div>
+              </a>
+
+              <a href="file:///D:/Mathematics/run_all_problems.py" class="p-4 rounded-lg border border-emerald-200 dark:border-emerald-800 hover:bg-emerald-50/50 dark:hover:bg-emerald-950/30 transition block">
+                <div class="flex items-center space-x-3">
+                  <div class="text-3xl">⚡</div>
+                  <div>
+                    <div class="font-bold text-sm">Master Test Runner (run_all_problems.py)</div>
+                    <div class="text-xs text-[var(--text-muted)]">Runs and verifies all 6 programs at once</div>
+                  </div>
+                </div>
+              </a>
+
+              <a href="file:///D:/Mathematics/README.md" class="p-4 rounded-lg border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 transition block">
+                <div class="flex items-center space-x-3">
+                  <div class="text-3xl">📖</div>
+                  <div>
+                    <div class="font-bold text-sm">README.md</div>
+                    <div class="text-xs text-[var(--text-muted)]">Comprehensive mathematical documentation</div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- CLIENT-SIDE SCRIPTING -->
+  <script>
+    // Tab switching
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav-tab').forEach(el => el.classList.remove('active'));
+      
+      const targetSec = document.getElementById('sec-' + tabId);
+      if (targetSec) targetSec.classList.remove('hidden');
+
+      // Highlight active nav button
+      event.currentTarget.classList.add('active');
+
+      // Render canvas charts if tab is selected
+      if (tabId === 'prob3') drawEulerPlot();
+      if (tabId === 'prob4') drawCoolingPlot();
+      if (tabId === 'prob6') drawSaltPlot();
+      if (tabId === 'prob1') runJacobiSim();
+      if (tabId === 'prob2') runSeidelSim();
+    }
+
+    // Theme toggle
+    document.getElementById('themeToggle').addEventListener('click', () => {
+      document.documentElement.classList.toggle('dark');
+      drawEulerPlot();
+      drawCoolingPlot();
+      drawSaltPlot();
+    });
+
+    // Copy to clipboard
+    function copyCode(elementId, btn) {
+      const code = document.getElementById(elementId).innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        const originalText = btn.innerText;
+        btn.innerText = 'Copied! ✓';
+        btn.classList.add('bg-emerald-200', 'text-emerald-800');
+        setTimeout(() => {
+          btn.innerText = originalText;
+          btn.classList.remove('bg-emerald-200', 'text-emerald-800');
+        }, 2000);
+      });
+    }
+
+    // Jacobi Simulator
+    function runJacobiSim() {
+      const tol = parseFloat(document.getElementById('jacobiTol')?.value || 0.0001);
+      let x = 0, y = 0, z = 0;
+      let logs = ["Iter 0: x = 0.0000, y = 0.0000, z = 0.0000"];
+      for (let k = 1; k <= 30; k++) {
+        let x_new = (18 + y - 2 * z) / 9;
+        let y_new = (-5 - 2 * x + z) / 8;
+        let z_new = (21 - x + 2 * y) / 10;
+        logs.push(`Iter ${k.toString().padStart(2, ' ')}: x = ${x_new.toFixed(4)}, y = ${y_new.toFixed(4)}, z = ${z_new.toFixed(4)}`);
+        if (Math.max(Math.abs(x_new - x), Math.abs(y_new - y), Math.abs(z_new - z)) < tol) {
+          logs.push(`--> Converged in ${k} iterations!`);
+          break;
+        }
+        x = x_new; y = y_new; z = z_new;
+      }
+      const out = document.getElementById('jacobiOutput');
+      if (out) out.innerHTML = logs.join('<br>');
+    }
+
+    // Seidel Simulator
+    function runSeidelSim() {
+      let x = 0, y = 0, z = 0;
+      let logs = ["Iter 0: x = 0.0000, y = 0.0000, z = 0.0000"];
+      for (let k = 1; k <= 30; k++) {
+        let x_old = x, y_old = y, z_old = z;
+        x = (10 - y + z) / 5;
+        y = (-2 + x - 2 * z) / 6;
+        z = (9 - 2 * x + y) / 7;
+        logs.push(`Iter ${k.toString().padStart(2, ' ')}: x = ${x.toFixed(4)}, y = ${y.toFixed(4)}, z = ${z.toFixed(4)}`);
+        if (Math.max(Math.abs(x - x_old), Math.abs(y - y_old), Math.abs(z - z_old)) < 0.0001) {
+          logs.push(`--> Converged in ${k} iterations!`);
+          break;
+        }
+      }
+      const out = document.getElementById('seidelOutput');
+      if (out) out.innerHTML = logs.join('<br>');
+    }
+
+    // Canvas plotting helpers
+    function drawEulerPlot() {
+      const c = document.getElementById('eulerCanvas');
+      if (!c) return;
+      const ctx = c.getContext('2d');
+      ctx.clearRect(0, 0, c.width, c.height);
+
+      const pts = [
+        {x: 0.0, y: 1.0000},
+        {x: 0.1, y: 1.1000},
+        {x: 0.2, y: 1.2310},
+        {x: 0.3, y: 1.4025}
+      ];
+
+      const toX = x => 60 + (x / 0.35) * 480;
+      const toY = y => 170 - ((y - 0.9) / 0.6) * 130;
+
+      // Draw grid
+      ctx.strokeStyle = '#e2e8f0';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(50, 20); ctx.lineTo(50, 170); ctx.lineTo(560, 170);
+      ctx.stroke();
+
+      // Plot line
+      ctx.strokeStyle = '#9333ea';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      pts.forEach((p, idx) => {
+        const px = toX(p.x), py = toY(p.y);
+        if (idx === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+
+      // Draw dots & labels
+      ctx.fillStyle = '#6b21a8';
+      pts.forEach(p => {
+        const px = toX(p.x), py = toY(p.y);
+        ctx.beginPath(); ctx.arc(px, py, 5, 0, Math.PI * 2); ctx.fill();
+        ctx.font = '10px monospace';
+        ctx.fillText(`(${p.x.toFixed(1)}, ${p.y.toFixed(4)})`, px - 25, py - 10);
+      });
+    }
+
+    function drawCoolingPlot() {
+      const c = document.getElementById('coolingCanvas');
+      if (!c) return;
+      const ctx = c.getContext('2d');
+      ctx.clearRect(0, 0, c.width, c.height);
+
+      const pts = [
+        {t: 0, T: 90.0},
+        {t: 4, T: 76.0},
+        {t: 8, T: 64.8}
+      ];
+
+      const toX = t => 60 + (t / 10) * 480;
+      const toY = T => 170 - ((T - 15) / 80) * 130;
+
+      // Grid & ambient asymptote (T = 20)
+      ctx.strokeStyle = '#cbd5e1';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(50, 20); ctx.lineTo(50, 170); ctx.lineTo(560, 170);
+      ctx.stroke();
+
+      // Ambient line (T=20)
+      ctx.strokeStyle = '#ef4444';
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(50, toY(20)); ctx.lineTo(560, toY(20));
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle = '#ef4444';
+      ctx.font = '10px sans-serif';
+      ctx.fillText('Ambient Ta = 20°C', 450, toY(20) - 5);
+
+      // Plot cooling
+      ctx.strokeStyle = '#ea580c';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      pts.forEach((p, idx) => {
+        const px = toX(p.t), py = toY(p.T);
+        if (idx === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+
+      pts.forEach(p => {
+        const px = toX(p.t), py = toY(p.T);
+        ctx.fillStyle = '#c2410c';
+        ctx.beginPath(); ctx.arc(px, py, 5, 0, Math.PI * 2); ctx.fill();
+        ctx.fillText(`t=${p.t}m, T=${p.T.toFixed(1)}°C`, px - 35, py - 10);
+      });
+    }
+
+    function drawSaltPlot() {
+      const c = document.getElementById('saltCanvas');
+      if (!c) return;
+      const ctx = c.getContext('2d');
+      ctx.clearRect(0, 0, c.width, c.height);
+
+      const rkPts = [
+        {t: 0, y: 0},
+        {t: 5, y: 52.5},
+        {t: 10, y: 93.5156},
+        {t: 15, y: 125.5591}
+      ];
+
+      const toX = t => 60 + (t / 18) * 480;
+      const toY = y => 170 - (y / 150) * 140;
+
+      // Axis
+      ctx.strokeStyle = '#cbd5e1';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(50, 20); ctx.lineTo(50, 170); ctx.lineTo(560, 170);
+      ctx.stroke();
+
+      // Analytical smooth curve
+      ctx.strokeStyle = '#0284c7';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      for (let t = 0; t <= 16; t += 0.5) {
+        let yExact = 240 * (1 - Math.exp(-t / 20));
+        let px = toX(t), py = toY(yExact);
+        if (t === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.stroke();
+
+      // RK2 points
+      ctx.strokeStyle = '#0d9488';
+      ctx.lineWidth = 3;
+      ctx.beginPath();
+      rkPts.forEach((p, idx) => {
+        let px = toX(p.t), py = toY(p.y);
+        if (idx === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      });
+      ctx.stroke();
+
+      rkPts.forEach(p => {
+        let px = toX(p.t), py = toY(p.y);
+        ctx.fillStyle = '#0f766e';
+        ctx.beginPath(); ctx.arc(px, py, 5, 0, Math.PI * 2); ctx.fill();
+        ctx.fillText(`t=${p.t}m, y=${p.y.toFixed(1)}g`, px - 25, py - 10);
+      });
+    }
+
+    // Initial render
+    window.onload = () => {
+      runJacobiSim();
+      runSeidelSim();
+    };
+  </script>
+</body>
+</html>
